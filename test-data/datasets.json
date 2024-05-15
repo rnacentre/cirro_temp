@@ -1,0 +1,17 @@
+[
+    {
+        "id": "lungcore900k",
+        "name": "lungcore900k",
+        "url": "../HLCA_fetal_adult_merged_harmony_all_labeled/HLCA_fetal_adult_merged_harmony_all_labeled.jsonl"
+    },
+    {
+        "id": "Amygdala",
+        "name": "Amygdala",
+        "url": "https://data.braincellatlas.org/mock/pbmc3k_no_raw.jsonl.idx.json"
+    },
+    {
+        "id": "Amygdala2",
+        "name": "Amygdala2",
+        "url": "Amygdala_raw.cpq"
+    }
+]

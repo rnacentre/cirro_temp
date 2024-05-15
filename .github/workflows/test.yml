@@ -1,0 +1,51 @@
+name: test
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        python-version: [ 3.10.x]
+        node-version: [ 16.x ]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: |
+          sudo apt-get update && sudo apt-get install graphicsmagick libxss1
+          pip install --upgrade pip
+          yarn global add typescript
+          yarn install
+          yarn build
+          SETUPTOOLS_SCM_PRETEND_VERSION=0.0.1 pip install .[test,parquet]
+        env:
+          CI: false
+      - name: Test with pytest
+        run: |
+          pip freeze
+          pytest
+        env:
+          CI: true
+      - name: Test with yarn
+        run: |
+          yarn test
+        env:
+          CI: true
+      - name: End to end
+        run: |
+          yarn e2e
+        env:
+          CI: true
